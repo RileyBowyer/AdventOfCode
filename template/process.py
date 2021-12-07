@@ -11,5 +11,7 @@ def process2(data):
   return data
 
 
-print(process(readData("test.txt")))
-print(process2(readData("test.txt")))
+file = "test.txt"
+# file = "data.txt"
+print(process(readData(file)))
+print(process2(readData(file)))

@@ -73,5 +73,7 @@ def process2(data):
   return gr*er
 
 
-print(process(readData("data.txt")))
-print(process2(readData("data.txt")))
+# file = "test.txt"
+file = "data.txt"
+print(process(readData(file)))
+print(process2(readData(file)))

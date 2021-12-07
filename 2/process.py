@@ -3,7 +3,7 @@ def readData(filename):
     return [line.strip().split(" ") for line in f]
 
 
-def findPosition(commands):
+def process(commands):
   horizontal = 0
   vertical = 0
   for command in commands:
@@ -16,7 +16,7 @@ def findPosition(commands):
   return abs(vertical * horizontal)
 
 
-def findPosition2(commands):
+def process2(commands):
   horizontal = 0
   vertical = 0
   aim = 0
@@ -31,5 +31,7 @@ def findPosition2(commands):
   return abs(vertical * horizontal)
 
 
-print(findPosition(readData("data.txt")))
-print(findPosition2(readData("data.txt")))
+# file = "test.txt"
+file = "data.txt"
+print(process(readData(file)))
+print(process2(readData(file)))

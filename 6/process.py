@@ -20,15 +20,7 @@ def process2(data):
   return process(data,days=256)
 
 
-print(process(readData("data.txt")))
-print(process2(readData("data.txt")))
-
-
-# def process(initFish, days):
-#   # fishSet = initFish
-#   fishSet = [0 for _ in range(9)]
-#   for fish in initFish:
-#     fishSet[fish] = fishSet[fish] + 1
-#   
-      
-# print(countFish([3,4,3,1,2], 256))
+# file = "test.txt"
+file = "data.txt"
+print(process(readData(file)))
+print(process2(readData(file)))

@@ -15,6 +15,7 @@ def readData(filename):
         boards[boardIndex].append(line.strip().split())
   return drawOrder, boards
 
+
 def findSol(data):
   draworder, boards = data
   for num in draworder:
@@ -75,5 +76,7 @@ def process2(data):
   return int(num) * sum([int(x) for row in board for x in row if x != 'X'])
 
 
-print(process(readData("data.txt")))
-print(process2(readData("data.txt")))
+# file = "test.txt"
+file = "data.txt"
+print(process(readData(file)))
+print(process2(readData(file)))
