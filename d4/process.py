@@ -1,3 +1,13 @@
+import sys
+import os
+
+sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
+try:
+  import utils
+finally:
+  pass
+
+
 def readData(filename):
   drawOrder = []
   boards = []
@@ -66,17 +76,20 @@ def findSol2(data):
               continue
 
 
+@utils.timeit
 def process(data):
   num, board = findSol(data)
   return int(num) * sum([int(x) for row in board for x in row if x != 'X'])
 
 
+@utils.timeit
 def process2(data):
   num, board = findSol2(data)
   return int(num) * sum([int(x) for row in board for x in row if x != 'X'])
 
 
-# file = "test.txt"
-file = "data.txt"
-print(process(readData(file)))
-print(process2(readData(file)))
+if __name__ == "__main__":
+  # file = "test.txt"
+  file = "data.txt"
+  print(process(readData(file)))
+  print(process2(readData(file)))

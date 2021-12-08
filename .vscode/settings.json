@@ -1,0 +1,14 @@
+{
+  "python.linting.pycodestyleEnabled": true,
+  "python.linting.enabled": true,
+  "python.linting.pylintArgs": [
+    "--init-hook",
+    "import sys; sys.path.append('..')"
+  ],
+  "terminal.integrated.env.linux": {
+    "PYTHONPATH": "${workspaceFolder}"
+  },
+  "python.linting.pydocstyleArgs": [
+    "--add-ignore=D1"
+  ],
+}

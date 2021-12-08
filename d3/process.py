@@ -1,8 +1,19 @@
+import sys
+import os
+
+sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
+try:
+  import utils
+finally:
+  pass
+
+
 def readData(filename):
   with open(filename) as f:
     return [[int(bit) for bit in line.strip()] for line in f]
 
 
+@utils.timeit
 def process(data):
   gammaRate = ""
   for index in range(len(data[0])):
@@ -18,9 +29,11 @@ def process(data):
     else:
       gammaRate += "0"
   gr = int(gammaRate, 2)
-  er = int(gammaRate, 2)^int("1"*len(data[0]), 2)
-  return gr*er
+  er = int(gammaRate, 2) ^ int("1" * len(data[0]), 2)
+  return gr * er
 
+
+@utils.timeit
 def process2(data):
   gammaRate = ""
   indicies = [i for i in range(len(data))]
@@ -45,7 +58,7 @@ def process2(data):
       indicies = tmp0
   gammaRate = "".join([str(i) for i in data[indicies[0]]])
   gr = int(gammaRate, 2)
-  
+
   gammaRate = ""
   indicies = [i for i in range(len(data))]
   for index in range(len(data[0])):
@@ -69,11 +82,12 @@ def process2(data):
       indicies = tmp1
   gammaRate = "".join([str(i) for i in data[indicies[0]]])
   er = int(gammaRate, 2)
-  
-  return gr*er
+
+  return gr * er
 
 
-# file = "test.txt"
-file = "data.txt"
-print(process(readData(file)))
-print(process2(readData(file)))
+if __name__ == "__main__":
+  # file = "test.txt"
+  file = "data.txt"
+  print(process(readData(file)))
+  print(process2(readData(file)))

@@ -1,3 +1,4 @@
+from statistics import median, mean
 import sys
 import os
 
@@ -10,17 +11,22 @@ finally:
 
 def readData(filename):
   with open(filename) as f:
-    return [line.strip() for line in f]
+    return [int(num) for line in f for num in line.strip().split(",")]
 
 
 @utils.timeit
 def process(data):
-  return data
+  goal = median(data)
+  return int(sum([abs(val - goal) for val in data]))
 
 
 @utils.timeit
 def process2(data):
-  return data
+  fuel = []
+  for goal in range(max(data)):
+    fuel.append(sum([(abs(val - goal)**2 + abs(val - goal)) / 2
+                     for val in data]))
+  return int(min(fuel))
 
 
 if __name__ == "__main__":
