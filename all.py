@@ -10,6 +10,9 @@ import d6.process as d6
 import d7.process as d7
 
 
+# TODO: Fixup 3,4,5
+
+
 def run(day, file="test.txt"):
   g = globals()
   print("-" * 20 + f" Day {day} " + "-" * 20)
