@@ -24,7 +24,7 @@ def process2(data):
 
 
 if __name__ == "__main__":
-  # file = "test.txt"
-  file = "data.txt"
+  file = "test.txt"
+  # file = "data.txt"
   print(process(readData(file)))
   print(process2(readData(file)))
