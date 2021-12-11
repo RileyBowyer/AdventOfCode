@@ -26,26 +26,24 @@ def readData(filename):
 
 @utils.timeit
 def process(data):
-  requiredFields = ["byr", "iyr", "eyr", "hgt", "hcl", "ecl", "pid"]
-  return sum(int(all(key in pp.keys()
-                     for key in requiredFields)) for pp in data)
+  requiredFields = {"byr", "iyr", "eyr", "hgt", "hcl", "ecl", "pid"}
+  return sum(int(requiredFields.issubset(pp)) for pp in data)
 
 
 @utils.timeit
 def process2(data):
-  requiredFields = ["byr", "iyr", "eyr", "hgt", "hcl", "ecl", "pid"]
+  requiredFields = {"byr", "iyr", "eyr", "hgt", "hcl", "ecl", "pid"}
   validFuncs = {"byr": lambda x: 1920 <= int(x) <= 2002,
                 "iyr": lambda x: 2010 <= int(x) <= 2020,
                 "eyr": lambda x: 2020 <= int(x) <= 2030,
                 "hgt": lambda x: ((x.endswith("cm") and 150 <= int(x[:-2]) <= 193) or 
                                   (x.endswith("in") and 59 <= int(x[:-2]) <= 76)),
                 "hcl": lambda x: bool(re.match("#[0-9a-f]{6}$", x)),
-                "ecl": lambda x: x in ["amb", "blu", "gry", "grn", "hzl", "oth"],
-                "pid": lambda x: bool(re.match("[0-9]{9}$", x)),
-                "cid": lambda x: True}
+                "ecl": lambda x: x in ["amb", "blu", "brn", "gry", "grn", "hzl", "oth"],
+                "pid": lambda x: bool(re.match("[0-9]{9}$", x))}
   
-  return sum(int(all(validFuncs[key](pp[key]) for key in pp.keys()) and
-                 all(key in pp.keys() for key in requiredFields))
+  return sum(int(requiredFields.issubset(pp) and 
+                 all(validFuncs[field](pp[field]) for field in requiredFields))
              for pp in data)
 
 
