@@ -9,42 +9,33 @@ finally:
 
 
 def readData(filename):
+  output = []
   with open(filename) as f:
-    return [line.strip().split(" ") for line in f]
+    for line in f:
+      line = line.strip().split(" ")
+      valRange = [int(x) for x in line[0].split("-")]
+      letter = line[1][0]
+      password = line[2]
+      output.append((valRange, letter, password))
+  return output
 
 
 @utils.timeit
-def process(commands):
-  horizontal = 0
-  vertical = 0
-  for command in commands:
-    if command[0][0] == "f":
-      horizontal += int(command[1])
-    elif command[0][0] == "d":
-      vertical -= int(command[1])
-    elif command[0][0] == "u":
-      vertical += int(command[1])
-  return abs(vertical * horizontal)
+def process(data):
+  return sum(password.count(letter) in
+             list(range(valRange[0], valRange[1] + 1))
+             for valRange, letter, password in data)
 
 
 @utils.timeit
-def process2(commands):
-  horizontal = 0
-  vertical = 0
-  aim = 0
-  for command in commands:
-    if command[0][0] == "f":
-      horizontal += int(command[1])
-      vertical += aim * int(command[1])
-    elif command[0][0] == "d":
-      aim -= int(command[1])
-    elif command[0][0] == "u":
-      aim += int(command[1])
-  return abs(vertical * horizontal)
+def process2(data):
+  return sum(int((password[valRange[0] - 1] == letter) ^
+                 (password[valRange[1] - 1] == letter))
+             for valRange, letter, password in data)
 
 
 if __name__ == "__main__":
   # file = "test.txt"
   file = "data.txt"
-  print(process(readData(file)))
+  # print(process(readData(file)))
   print(process2(readData(file)))

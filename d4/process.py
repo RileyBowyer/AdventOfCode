@@ -1,5 +1,6 @@
 import sys
 import os
+import re
 
 sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
 try:
@@ -9,83 +10,43 @@ finally:
 
 
 def readData(filename):
-  drawOrder = []
-  boards = []
-  boardIndex = -1
+  passports = []
   with open(filename) as f:
-    for num, line in enumerate(f):
-      if num == 0:
-        drawOrder = line.split(',')
+    pp = {}
+    for line in f:
+      line = line.strip()
+      if line == "":
+        passports.append(pp)
+        pp = {}
         continue
-      else:
-        if line.strip() == '':
-          boardIndex += 1
-          boards.append([])
-          continue
-        boards[boardIndex].append(line.strip().split())
-  return drawOrder, boards
-
-
-def findSol(data):
-  draworder, boards = data
-  for num in draworder:
-    for row in range(len(boards[0][0])):
-      for col in range(len(boards[0])):
-        for board in boards:
-          if board[row][col] == num:
-            board[row][col] = 'X'
-            solFound = True
-            for rowC in range(len(boards[0][0])):
-              if solFound and board[rowC][col] != 'X':
-                solFound = False
-            if solFound:
-              return num, board
-            solFound = True
-            for colC in range(len(boards[0])):
-              if solFound and board[row][colC] != 'X':
-                solFound = False
-            if solFound:
-              return num, board
-
-
-def findSol2(data):
-  draworder, boards = data
-  for num in draworder:
-    for row in range(len(boards[0][0])):
-      for col in range(len(boards[0])):
-        for index, board in enumerate(boards):
-          if board[row][col] == num:
-            board[row][col] = 'X'
-            solFound = True
-            for rowC in range(len(boards[0][0])):
-              if solFound and board[rowC][col] != 'X':
-                solFound = False
-            if solFound:
-              if len(boards) == 1:
-                return num, board
-              boards.remove(board)
-              continue
-            solFound = True
-            for colC in range(len(boards[0])):
-              if solFound and board[row][colC] != 'X':
-                solFound = False
-            if solFound:
-              if len(boards) == 1:
-                return num, board
-              boards.remove(board)
-              continue
+      tmp = dict(entry.split(":") for entry in line.split(" "))
+      pp.update(tmp)
+    return passports
 
 
 @utils.timeit
 def process(data):
-  num, board = findSol(data)
-  return int(num) * sum([int(x) for row in board for x in row if x != 'X'])
+  requiredFields = ["byr", "iyr", "eyr", "hgt", "hcl", "ecl", "pid"]
+  return sum(int(all(key in pp.keys()
+                     for key in requiredFields)) for pp in data)
 
 
 @utils.timeit
 def process2(data):
-  num, board = findSol2(data)
-  return int(num) * sum([int(x) for row in board for x in row if x != 'X'])
+  requiredFields = ["byr", "iyr", "eyr", "hgt", "hcl", "ecl", "pid"]
+  validFuncs = {"byr": lambda x: 1920 <= int(x) <= 2002,
+                "iyr": lambda x: 2010 <= int(x) <= 2020,
+                "eyr": lambda x: 2020 <= int(x) <= 2030,
+                "hgt": lambda x: ((x.endswith("cm") and 150 <= int(x[:-2]) <= 193) or 
+                                  (x.endswith("in") and 59 <= int(x[:-2]) <= 76)),
+                "hcl": lambda x: bool(re.match("#[0-9a-f]{6}$", x)),
+                "ecl": lambda x: x in ["amb", "blu", "gry", "grn", "hzl", "oth"],
+                "pid": lambda x: bool(re.match("[0-9]{9}$", x)),
+                "cid": lambda x: True}
+  
+  return sum(int(all(validFuncs[key](pp[key]) for key in pp.keys()) and
+                 all(key in pp.keys() for key in requiredFields))
+             for pp in data)
 
 
 if __name__ == "__main__":
