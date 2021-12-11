@@ -22,6 +22,6 @@ def run(day, file="test.txt"):
 
 
 if __name__ == "__main__":
-  daysCompleted = 9
+  daysCompleted = 11
   for day in range(1, daysCompleted + 1):
     run(day)
