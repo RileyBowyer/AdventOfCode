@@ -15,11 +15,7 @@ def readData(filename):
 
 @utils.timeit
 def process(measures):
-  increments = 0
-  for i in range(1, len(measures)):
-    if measures[i] > measures[i - 1]:
-      increments += 1
-  return increments
+  return sum(measures[i] > measures[i - 1] for i in range(1, len(measures)))
 
 
 @utils.timeit

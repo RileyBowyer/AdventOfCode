@@ -38,11 +38,8 @@ def readData(filename):
 @utils.timeit
 def process(data):
   inputs, outputs = data
-  num = 0
-  for entry in [val for entry in outputs for val in entry]:
-    if len(entry) in [2, 3, 4, 7]:
-      num += 1
-  return num
+  return sum(len(entry) in [2, 3, 4, 7]
+             for entry in [val for entry in outputs for val in entry])
 
 
 def findCombo(input):
@@ -54,7 +51,7 @@ def findCombo(input):
       valStr = "".join(valList)
       if collections.Counter(list(valStr)) in tmpInput:
         tmpInput.remove(collections.Counter(list(valStr)))
-        if len(tmpInput) == 0:
+        if not tmpInput:
           return comb
 
 
@@ -72,7 +69,7 @@ def process2(data):
         if collections.Counter(key) == collections.Counter(valList):
           sumVal += str(num)
     sumVals.append(sumVal)
-  return sum([int(sumVal) for sumVal in sumVals])
+  return sum(int(sumVal) for sumVal in sumVals)
 
 
 if __name__ == "__main__":

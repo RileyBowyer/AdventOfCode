@@ -24,10 +24,7 @@ def process(data):
         ones += 1
       else:
         zeros += 1
-    if ones > zeros:
-      gammaRate += "1"
-    else:
-      gammaRate += "0"
+    gammaRate += "1" if ones > zeros else "0"
   gr = int(gammaRate, 2)
   er = int(gammaRate, 2) ^ int("1" * len(data[0]), 2)
   return gr * er
@@ -52,10 +49,7 @@ def process2(data):
       else:
         zeros += 1
         tmp0.append(i)
-    if ones >= zeros:
-      indicies = tmp1
-    else:
-      indicies = tmp0
+    indicies = tmp1 if ones >= zeros else tmp0
   gammaRate = "".join([str(i) for i in data[indicies[0]]])
   gr = int(gammaRate, 2)
 
@@ -76,10 +70,7 @@ def process2(data):
       else:
         zeros += 1
         tmp0.append(i)
-    if zeros <= ones:
-      indicies = tmp0
-    else:
-      indicies = tmp1
+    indicies = tmp0 if zeros <= ones else tmp1
   gammaRate = "".join([str(i) for i in data[indicies[0]]])
   er = int(gammaRate, 2)
 

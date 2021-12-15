@@ -28,17 +28,14 @@ def findLowest(data):
           neighbourPoints.append(data[rIndex + r][cIndex + c])
         except IndexError:
           continue
-      if all([point > elem for point in neighbourPoints]):
+      if all(point > elem for point in neighbourPoints):
         lowPoints.append((elem, rIndex, cIndex))
   return lowPoints
 
 
 @utils.timeit
 def process(data):
-  riskSum = 0
-  for point, r, c in findLowest(data):
-    riskSum += point + 1
-  return riskSum
+  return sum(point + 1 for point, r, c in findLowest(data))
 
 
 @utils.timeit

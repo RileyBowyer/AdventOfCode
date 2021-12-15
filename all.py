@@ -1,7 +1,7 @@
 import utils
 import importlib
 
-# # TODO: Fixup 3,4,5
+# TODO: Fixup 3,4,5
 
 
 def run(day, file="test.txt"):
@@ -22,6 +22,6 @@ def run(day, file="test.txt"):
 
 
 if __name__ == "__main__":
-  daysCompleted = 11
+  daysCompleted = 13
   for day in range(1, daysCompleted + 1):
-    run(day)
+    run(day, "data.txt")

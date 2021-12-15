@@ -16,14 +16,12 @@ def readData(filename):
 
 @utils.timeit
 def process(data):
-  width = max([int(entry[0]) for tup in data for entry in tup])
-  height = max([int(entry[1]) for tup in data for entry in tup])
+  width = max(int(entry[0]) for tup in data for entry in tup)
+  height = max(int(entry[1]) for tup in data for entry in tup)
   vents = [[0 for _ in range(width + 1)] for _ in range(height + 1)]
 
   for tup in data:
-    delta = []
-    delta.append(abs(tup[0][0] - tup[1][0]))
-    delta.append(abs(tup[0][1] - tup[1][1]))
+    delta = [abs(tup[0][0] - tup[1][0]), abs(tup[0][1] - tup[1][1])]
     if min(delta) != 0:
       pass
     elif delta[0] != 0:
@@ -46,15 +44,13 @@ def process(data):
 
 @utils.timeit
 def process2(data):
-  width = max([int(entry[0]) for tup in data for entry in tup])
-  height = max([int(entry[1]) for tup in data for entry in tup])
+  width = max(int(entry[0]) for tup in data for entry in tup)
+  height = max(int(entry[1]) for tup in data for entry in tup)
   vents = [[0 for _ in range(width + 1)] for _ in range(height + 1)]
   for tup in data:
-    delta = []
-    delta.append(tup[0][0] - tup[1][0])
-    delta.append(tup[0][1] - tup[1][1])
+    delta = [tup[0][0] - tup[1][0], tup[0][1] - tup[1][1]]
     start = [min(tup[0][0], tup[1][0]), min(tup[0][1], tup[1][1])]
-    if min([abs(entry) for entry in delta]) != 0:
+    if min(abs(entry) for entry in delta) != 0:
       for i in range(abs(delta[0]) + 1):
         rowIndex = tup[0][0] + (i if delta[0] < 0 else -i)
         colIndex = tup[0][1] + (i if delta[1] < 0 else -i)
