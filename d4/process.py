@@ -34,12 +34,10 @@ def findSol(data):
         for board in boards:
           if board[row][col] == num:
             board[row][col] = 'X'
-            solFound = not any(solFound and board[rowC][col] != 'X'
-                               for rowC in range(len(boards[0][0])))
+            solFound = all(board[rowC][col] == 'X' for rowC in range(len(boards[0][0])))
             if solFound:
               return num, board
-            solFound = not any(solFound and board[row][colC] != 'X'
-                               for colC in range(len(boards[0])))
+            solFound = all(board[row][colC] == 'X' for colC in range(len(boards[0])))
             if solFound:
               return num, board
 
@@ -52,15 +50,13 @@ def findSol2(data):
         for board in boards:
           if board[row][col] == num:
             board[row][col] = 'X'
-            solFound = not any(solFound and board[rowC][col] != 'X'
-                               for rowC in range(len(boards[0][0])))
+            solFound = all(board[rowC][col] == 'X' for rowC in range(len(boards[0][0])))
             if solFound:
               if len(boards) == 1:
                 return num, board
               boards.remove(board)
               continue
-            solFound = not any(solFound and board[row][colC] != 'X'
-                               for colC in range(len(boards[0])))
+            solFound = all(board[row][colC] == 'X' for colC in range(len(boards[0])))
             if solFound:
               if len(boards) == 1:
                 return num, board
